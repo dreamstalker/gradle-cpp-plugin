@@ -1,0 +1,90 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id 'com.jfrog.bintray' version '1.1'
+}
+
+description = 'Gradle plugin for more convenient C/C++ projects building'
+group = 'org.doomedsociety.gradlecpp'
+version = 'SNAPSHOT'
+
+// Set product version if tag is given on Travis CI
+System.getenv('TRAVIS_TAG')?.eachMatch(/^v([\d.]+)$/) { m -> project.version = m[1] }
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+
+            //final github = 'https://github.com/int128/gradle-ssh-plugin'
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = DELEGATE_FIRST
+                    name project.name
+                    description project.description
+                    //url github
+                    //scm {
+                    //    url "${github}.git"
+                    //    connection "scm:git:${github}.git"
+                    //}
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'dreamstalker'
+                            name 'dreamstalker'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER') ?: project.properties.bintrayUser
+    key  = System.getenv('BINTRAY_KEY')  ?: project.properties.bintrayKey
+    publications = ['maven']
+    pkg {
+        repo = 'maven'
+        name = project.name
+        version {
+            attributes = ['gradle-plugin': 'org.doomedsociety.gradlecpp:org.doomedsociety.gradlecpp:gradle-cpp-plugin']
+        }
+    }
+}
+
+
+tasks.bintrayUpload.doFirst {
+    assert !project.version.contains('SNAPSHOT')
+}
+
+task install(dependsOn: 'publishMavenPublicationToMavenLocal')
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
