@@ -7,11 +7,11 @@ install:
 script:
 - ./gradlew check
 
-#after_success:
-#- test ${TRAVIS_TAG} && ./gradlew bintrayUpload
+after_success:
+- test ${MAVEN_PUBLISH_USERNAME} && ./gradlew publish
 
 env:
   global:
   - TERM=dumb
- # - secure: O1woxzaGDbP7FjbnfCryVwfjOqqTU8Ix7dieAdOSwdfLS21RxV5vBdk7rgep+Gpgj0bhMILHpnlmuH6oh5oLNykQL2DKhC4atjyWjTZBVKMBvDabPDKXrsT8pvexYzwTUlMACcEU8/iBvNjqJjkJzQy1TuIrknqXp4GdTzlyyko=
- # - secure: hUWvSso9YoE9v1FDiJUzsURae4dpNFK5J59UqeKqyD17Mz4tefZtTzMcsbx9qe+6Y7VT6RsH/MAryosJz53OzDQQX0NBWWNsCpxNU97/cSbmw2Tl3523pKc5irjbv43+vFF5kSya16AmRcAAymbAzpNnvKDFujXONRYbnhYRYV8=
+  - secure: "Pp9tnWokCpr7v8UMk01RYpBvfFxJpwj/v6Lm/mlth2A7yFaQJweDWzxJat4KD4Cru/FQhYr0Vdgejjo4gXvasaZkPIT6P2woWfKTpdaXjAK3tSoUlLTVX6s6KH8RZSIqS5DdZ9nt6iwNXsAOK8gRONhL0xRb750S3870wAZBxsI="
+  - secure: "OEqDEf7xjQgnquPHdWFchuyW3XH1O1pnDe7T3tyQ/Ha3Ys9dPWsqC5R4/rlhRcJogdp12bUiyI3Rm032dCQZsBR7431RB7Ip8ks4sfvG+kCuSn9GQenjwX5+eIm4tXbSS7j84hcpHTzPcSRRAqF6yYhPQXYUjQrKgqKOiRZweuM="
