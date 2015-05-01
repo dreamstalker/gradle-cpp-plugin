@@ -1,12 +1,11 @@
 plugins {
     id 'groovy'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.1'
 }
 
 description = 'Gradle plugin for more convenient C/C++ projects building'
 group = 'org.doomedsociety.gradlecpp'
-version = 'SNAPSHOT'
+version = '1.0-SNAPSHOT'
 
 // Set product version if tag is given on Travis CI
 System.getenv('TRAVIS_TAG')?.eachMatch(/^v([\d.]+)$/) { m -> project.version = m[1] }
@@ -32,6 +31,7 @@ task sourcesJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
+			version project.version
             from components.java
             artifact sourcesJar
 
@@ -65,26 +65,24 @@ publishing {
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER') ?: project.properties.bintrayUser
-    key  = System.getenv('BINTRAY_KEY')  ?: project.properties.bintrayKey
-    publications = ['maven']
-    pkg {
-        repo = 'maven'
-        name = project.name
-        version {
-            attributes = ['gradle-plugin': 'org.doomedsociety.gradlecpp:org.doomedsociety.gradlecpp:gradle-cpp-plugin']
+publishing {
+    repositories {
+        maven {
+			if (project.version.contains('SNAPSHOT')) {
+				url "http://nexus.rehlds.org/nexus/content/repositories/rehlds-snapshots/"
+			} else {
+				url "http://nexus.rehlds.org/nexus/content/repositories/rehlds-releases/"
+			}
+			credentials {
+				username System.getenv('MAVEN_PUBLISH_USERNAME')
+				password System.getenv('MAVEN_PUBLISH_PASSWORD')
+			}
         }
     }
-}
-
-
-tasks.bintrayUpload.doFirst {
-    assert !project.version.contains('SNAPSHOT')
 }
 
 task install(dependsOn: 'publishMavenPublicationToMavenLocal')
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.4-rc-2'
 }
