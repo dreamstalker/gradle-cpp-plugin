@@ -13,7 +13,7 @@ import org.doomedsociety.gradlecpp.cfg.ToolchainConfig
 class GccToolchainConfig implements ToolchainConfig {
 
     static class PrecompilerHeaderOptions {
-        boolean enable
+        boolean enabled
         String pchSourceSet
     }
 
