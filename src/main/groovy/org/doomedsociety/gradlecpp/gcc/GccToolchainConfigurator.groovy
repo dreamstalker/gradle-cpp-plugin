@@ -62,6 +62,17 @@ class GccToolchainConfigurator extends BaseConfigurator {
         }
     }
 
+    static void applyLinkerConfig(Project p, NativeBinarySpec bin, Tool linker, GccToolchainConfig.LinkerOptions cfg) {
+        applyToolConfig(linker, cfg, null)
+        cfg.libDirectories.each { incDir ->
+            linker.args('-L' + incDir)
+        }
+
+        cfg.extraLibs.each { lib ->
+            linker.args('-l' + lib)
+        }
+    }
+
     @Override
     void applyToolchainConfig(Project p, ToolchainConfig cfg, NativeBinarySpec bin) {
         GccToolchainConfig config = (GccToolchainConfig) cfg
@@ -80,7 +91,7 @@ class GccToolchainConfigurator extends BaseConfigurator {
         }
 
         applyCompilerConfig(p, bin, compiler, config.compilerOptions, null)
-        applyToolConfig(bin.linker, config.linkerOptions, null)
+        applyLinkerConfig(p, bin, bin.linker, config.linkerOptions)
         applyToolConfig(bin.staticLibArchiver, config.librarianOptions, null)
     }
 

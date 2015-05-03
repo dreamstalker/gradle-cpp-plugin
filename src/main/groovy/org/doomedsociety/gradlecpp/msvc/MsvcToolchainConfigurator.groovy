@@ -48,6 +48,14 @@ class MsvcToolchainConfigurator extends BaseConfigurator {
         if (cfg.definitionFile) {
             linker.args('/DEF:' + cfg.definitionFile)
         }
+
+        cfg.libDirectories.each { incDir ->
+            linker.args('/LIBPATH:' + incDir)
+        }
+
+        cfg.extraLibs.each { lib ->
+            linker.args(lib)
+        }
     }
 
     static void setupPrecompiledHeaders(Project p, NativeBinarySpec bin, MsvcToolchainConfig.PrecompiledHeadersConfig pchConfig) {

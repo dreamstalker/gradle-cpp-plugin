@@ -44,7 +44,11 @@ abstract class BaseConfigurator {
                     }
                 } else if (stringParam) {
                     f.setAccessible(true)
-                    param = (String) f.get(cfgModel)
+                    String prefix = stringParam.prefix()
+                    Object val = f.get(cfgModel)
+                    if (val != null) {
+                        param = (prefix ?: '') + val
+                    }
                 }
             }
 
