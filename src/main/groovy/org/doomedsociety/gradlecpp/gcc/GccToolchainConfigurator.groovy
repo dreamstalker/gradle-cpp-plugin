@@ -38,9 +38,9 @@ class GccToolchainConfigurator extends BaseConfigurator {
 
         cfg.extraDefines.each { kv ->
             if (kv.value == null) {
-                compiler.args("/D${kv.key}")
+                compiler.args("-D${kv.key}")
             } else {
-                compiler.args("/D${kv.key}=${kv.value}")
+                compiler.args("-D${kv.key}=${kv.value}")
             }
         }
 
