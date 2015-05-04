@@ -5,7 +5,7 @@ plugins {
 
 description = 'Gradle plugin for more convenient C/C++ projects building'
 group = 'org.doomedsociety.gradlecpp'
-version = '1.1-SNAPSHOT'
+version = '1.2-SNAPSHOT'
 
 // Set product version if tag is given on Travis CI
 System.getenv('TRAVIS_TAG')?.eachMatch(/^v([\d.]+)$/) { m -> project.version = m[1] }
