@@ -10,8 +10,7 @@ import org.doomedsociety.gradlecpp.cfg.ToolConfig
 import org.doomedsociety.gradlecpp.cfg.ToolchainConfig
 
 @CompileStatic @TypeChecked
-class MsvcToolchainConfig implements ToolchainConfig {
-
+class MsvcToolchainConfig extends ToolchainConfig {
 
     static class PrecompiledHeadersConfig {
         boolean enabled

@@ -10,7 +10,7 @@ import org.doomedsociety.gradlecpp.cfg.ToolConfig
 import org.doomedsociety.gradlecpp.cfg.ToolchainConfig
 
 @CompileStatic @TypeChecked
-class GccToolchainConfig implements ToolchainConfig {
+class GccToolchainConfig extends ToolchainConfig {
 
     static class PrecompilerHeaderOptions {
         boolean enabled
@@ -19,8 +19,6 @@ class GccToolchainConfig implements ToolchainConfig {
 
     static class CompilerOptions extends CompilerConfig {
         @BoolParam(on = '-fno-builtin', off = '') Boolean noBuiltIn
-        @BoolParam(on = '-static-libgcc', off = '') Boolean staticLibGcc
-        @BoolParam(on = '-static-intel', off = '') Boolean staticIntel
         @BoolParam(on = '-intel-extensions', off = '-no-intel-extensions') Boolean intelExtensions
         @BoolParam(on = '-fasm-blocks', off = '-fno-asm-blocks') Boolean asmBlocks
 
@@ -38,6 +36,8 @@ class GccToolchainConfig implements ToolchainConfig {
     static class LinkerOptions extends LinkerConfig {
         @BoolParam(on = '-ipo', off = '') Boolean interProceduralOptimizations
         @BoolParam(on = '-s', off = '') Boolean stripSymbolTable
+        @BoolParam(on = '-static-libgcc', off = '') Boolean staticLibGcc
+        @BoolParam(on = '-static-intel', off = '') Boolean staticIntel
     }
 
     static class LibrarianOptions extends ToolConfig {
