@@ -38,6 +38,7 @@ class GccToolchainConfig extends ToolchainConfig {
         @BoolParam(on = '-s', off = '') Boolean stripSymbolTable
         @BoolParam(on = '-static-libgcc', off = '') Boolean staticLibGcc
         @BoolParam(on = '-static-intel', off = '') Boolean staticIntel
+        @BoolParam(on = '-static-libstdc++', off = '') Boolean staticLibStdCpp
     }
 
     static class LibrarianOptions extends ToolConfig {
